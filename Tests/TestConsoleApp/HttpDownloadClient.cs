@@ -23,17 +23,13 @@ namespace Multithread_downloader.Services
 
 		public (Stream bytes, HttpStatusCode response_code) GetContentRangedPart(string url, long first_byte, long last_byte)
 		{
-			int a;
-			if (first_byte >= last_byte)
-				a = 1;
-
 			var client = establishClient();
 
 			var method = new HttpMethod("GET");
 			var request = new HttpRequestMessage(method, url) {
 				Headers = { Range = new RangeHeaderValue(first_byte, last_byte) }
 			};
-			var response = client.Send(request, HttpCompletionOption.ResponseContentRead);
+			var response = client.Send(request, HttpCompletionOption.ResponseHeadersRead);
 			return (response.Content.ReadAsStream(), response.StatusCode);
 		}
 
@@ -53,14 +49,13 @@ namespace Multithread_downloader.Services
 			byte[] file_bytes = new byte[bytes_len];
 
 
-			while (current_task_id != threads_count)
-			{
+			while (current_task_id != threads_count) {
 				int task_id = current_task_id;
 				tasks[current_task_id++] = Task.Run(
 					() =>
 					{
 						long first_byte = task_id * part_size;
-						long last_byte = first_byte + part_size -1;
+						long last_byte = first_byte + part_size - 1;
 						if (bytes_len - last_byte <= part_size)
 							last_byte = bytes_len - 1;
 

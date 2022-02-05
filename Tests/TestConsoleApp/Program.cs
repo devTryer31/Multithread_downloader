@@ -8,7 +8,7 @@ namespace TestConsoleApp
 		static void Main(string[] args)
 		{
 			HttpDownloadClient _downloadClient = new HttpDownloadClient();
-			_downloadClient.MultiSocketRequestsMode = false;
+			_downloadClient.MultiSocketRequestsMode = true;
 			_downloadClient.ThreadDownloadProgressUpdater += (t_id, p) => Console.WriteLine($"t_id:{t_id} -> {p}%");
 
 			Console.WriteLine(
