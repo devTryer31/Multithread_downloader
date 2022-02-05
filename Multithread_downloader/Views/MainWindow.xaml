@@ -4,9 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Multithread_downloader"
+        xmlns:vm="clr-namespace:Multithread_downloader.ViewModels"
         xmlns:sys="clr-namespace:System;assembly=System.Core"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="605">
+        Title="MainWindow" Height="450" Width="605"
+        >
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
+
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
