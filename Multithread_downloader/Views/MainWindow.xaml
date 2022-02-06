@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Multithread_downloader"
         xmlns:vm="clr-namespace:Multithread_downloader.ViewModels"
-        xmlns:sys="clr-namespace:System;assembly=System.Core"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="605"
         >
@@ -43,7 +43,8 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="auto"/>
+                <!--<RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>-->
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Text="URL"/>
             <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" 
@@ -54,19 +55,37 @@
             <TextBlock Grid.Row="1" Grid.Column="0" Text="Save path"/>
             <TextBox Grid.Row="1" Grid.Column="1"/>
             <Button Grid.Column="2" Grid.Row="1" Content="Browse"/>
-            <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
-                       TextAlignment="Center"
-                       Text="Progress"/>
 
-            <ListBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3">
-                <!--<ListBox.ItemTemplate>
-                    <DataTemplate DataType="{x:Type sys:Type=Tas}"
-                </ListBox.ItemTemplate>-->
-            </ListBox>
+            <DockPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
+                <TextBlock DockPanel.Dock="Top"
+                       TextAlignment="Center" Text="Progress"/>
 
-            <Button Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" 
-                    HorizontalAlignment="Center"
-                    Content="Start downloading"/>
+                <Button DockPanel.Dock="Bottom"
+                        HorizontalAlignment="Center"
+                        Content="Start downloading"/>
+
+                <ListBox ItemsSource="{Binding ThreadsProgress}"
+                         VerticalAlignment="Center" HorizontalContentAlignment="Stretch">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="{x:Type sys:Int32}">
+                            <Grid>
+                                <ProgressBar Value="{Binding Mode=OneWay}"
+                                         Maximum="100" Minimum="0"
+                                         Height="35" 
+                                         />
+                                <TextBlock Text="{Binding Mode=OneWay}"
+                                         HorizontalAlignment="Center" VerticalAlignment="Center"
+                                         />
+                            </Grid>
+
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+
+
+
+            </DockPanel>
         </Grid>
 
     </DockPanel>
